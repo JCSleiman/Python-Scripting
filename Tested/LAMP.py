@@ -1,15 +1,15 @@
 # This Script is used in order to install the LAMP stack for Ubuntu distro.
+# Run this script with sudo.
 import os
 import re
 import shutil
 from tempfile import mkstemp
 
-pass = input('¿ Would you give me your sudo password ?')
 
 def install_apache2():
 
     os.system('sudo apt update')
-    print(pass+'\n')
+    print(psswd+'\n')
     os.system('sudo apt -y install apache2')
     os.system("sudo ufw allow in 'Apache Full'")
 
@@ -20,7 +20,7 @@ def install_mysql():
 
 def install_php():
 
-    os.system("sudo apt install php libapache2-mod-php php-mysql")
+    os.system("sudo apt -y install php libapache2-mod-php php-mysql")
     # The next line creates the php.info in order to test the installation...
     # Please, delete this after check the functionallity
     f = open("/var/www/html/php.info", "w")
