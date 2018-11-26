@@ -1,8 +1,14 @@
 <?php
 $databaseHost = 'localhost';
-$databaseName = 'root';
-$databaseUsername = 'tiendita';
-$databasePassword = './Metalhalo1600';
+$databaseName = 'tiendita';
+$databaseUsername = 'sleiman';
+$databasePassword = "./Metalhalo1600";
 
-$mysqli = mysqli_connect($databaseHost, $databaseName, $databasePassword, $databaseUsername);
+$mysqli = mysqli_connect($databaseHost, $databaseUsername, $databasePassword, $databaseName);
+
+
+if (!$mysqli) {
+    echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+}
+
 ?>

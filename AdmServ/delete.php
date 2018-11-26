@@ -1,3 +1,5 @@
+<?php
+
 //including the database connection file
 include("config.php");
  
@@ -9,3 +11,4 @@ $result = mysqli_query($mysqli, "DELETE FROM productos WHERE id=$id");
  
 //redirecting to the display page (index.php in our case)
 header("Location:index.php");
+?>

@@ -32,7 +32,7 @@ if(isset($_POST['Submit'])) {
     } else { 
         // si todos los campos están llenos (no vacíos)             
         // insertar información a la base de datos
-        $result = mysqli_query($mysqli, "INSERT INTO tiendita(nombre,precio,descr) VALUES('$nombre','$precio','$descr')");
+        $result = mysqli_query($mysqli, "INSERT INTO productos(nombre,precio,descr) VALUES('$nombre','$precio','$descr')");
         
 	// un mensajito de que salió bien
         echo "<font color='green'>La información de guardó correctamente.";
