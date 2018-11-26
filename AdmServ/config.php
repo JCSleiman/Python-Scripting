@@ -2,7 +2,7 @@
 $databaseHost = 'localhost';
 $databaseName = 'tiendita';
 $databaseUsername = 'sleiman';
-$databasePassword = "./Metalhalo1600";
+$databasePassword = "s3cretp4ss";
 
 $mysqli = mysqli_connect($databaseHost, $databaseUsername, $databasePassword, $databaseName);
 
