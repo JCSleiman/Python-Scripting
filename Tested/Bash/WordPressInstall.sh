@@ -1,6 +1,6 @@
 #!bin/bash
 
-read -p "Name of your site >"siteurl
+read -p "Name of your site without http:// >"siteurl
 read -p "TYPE THE MYSQL ROOT PASSWORD > " MYPASS
 echo "Database Name: "
 read -e dbname
@@ -62,23 +62,37 @@ Download_Wordpress () {
 
 	cd /tmp
 	apt install curl -y
-	curl -O https://wordpress.org/latest.tar.gz
-	tar xzvf latest.tar.gz
-	cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
-	mkdir /tmp/wordpress/wp-content/upgrade
-	cp -a /tmp/wordpress/. /var/www/$siteurl
-	chown -R $USER:www-data /var/www/$siteurl
-	chmod g+w /var/www/$siteurl/wp-content
-	chmod -R g+w /var/www/$siteurl/wp-content/themes
-	chmod -R g+w /var/www/$siteurl/wp-content/plugins
+	curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+	chmod +x wp-cli.phar
+	mv wp-cli.phar /usr/local/bin/wp
+	cd ~
+	wget https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash
+	cat "source ~/wp-completion.bash" >> ~/.bashrc
+	wp core download
+	cd /var/www/$siteurl
+	#curl -O https://wordpress.org/latest.tar.gz
+	#tar xzvf latest.tar.gz
+	#cp /tmp/wordpress/wp-config-sample.php /tmp/wordpress/wp-config.php
+	#mkdir /tmp/wordpress/wp-content/upgrade
+	#cp -a /tmp/wordpress/. /var/www/$siteurl
+	chown -R www-data:www-data public_html
+	cd public_html
+	-u www-data wp core download
+	-u www-data wp core config --dbname='$dbname' --dbuser='$dbuser' --dbpass='$dbpass' --dbhost='localhost' --dbprefix='wp_'
+	read -p "Type the admin of the wordpress >" adminuser
+	read -p "Type the password of the admin >" password
+	read -p "Type the email of the admin >" adminemail
+	-u www-data wp core install --url='http://$siteurl' --title='Blog $siteurl' --admin_user='$adminuser' --admin_password='$password' --admin_email='$adminemail'
+	#chmod g+w /var/www/$siteurl/wp-content
+	#chmod -R g+w /var/www/$siteurl/wp-content/themes
+	#chmod -R g+w /var/www/$siteurl/wp-content/plugins
+	#echo "REPLACING DB LINES INTO WP-CONFIG.PHP"
+	#sed s/define('DB_NAME', 'database_name_here');/define('DB_NAME', '$dbname');/g /var/www/$siteurl/wp-config.php
+	#sed s/define('DB_USER', 'username_here');/define('DB_NAME', '$dbuser');/g /var/www/$siteurl/wp-config.php
+	#sed s/define('DB_PASSWORD', 'password_here');/define('DB_PASSWORD', '$dbpass');/g /var/www/$siteurl/wp-config.php
+	#sed s/define('DB_COLLATE', '');/define('DB_COLLATE', '');\ndefine('FS_METHOD', 'direct');/g /var/www/$siteurl/wp-config.php
 
-	echo "REPLACING DB LINES INTO WP-CONFIG.PHP"
-	sed s/define('DB_NAME', 'database_name_here');/define('DB_NAME', '$dbname');/g /var/www/$siteurl/wp-config.php
-	sed s/define('DB_USER', 'username_here');/define('DB_NAME', '$dbuser');/g /var/www/$siteurl/wp-config.php
-	sed s/define('DB_PASSWORD', 'password_here');/define('DB_PASSWORD', '$dbpass');/g /var/www/$siteurl/wp-config.php
-	sed 's/define('DB_COLLATE', '');/define('DB_COLLATE', '');\ndefine('FS_METHOD', 'direct');' /var/www/$siteurl/wp-config.php
-
-	echo "AUTOMATE COMPLETE, NOW GO TO YOUR URL PAGE IN ORDER TO FINISH THE WORDPRESS INSTALLATION"
+	echo "AUTOMATE COMPLETE"
 
 }
 
