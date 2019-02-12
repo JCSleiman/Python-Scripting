@@ -2,9 +2,11 @@
 
 # You need to run the script LEMP.sh before this one
 
+read -p "Choose the route to install Magento (skip the '/' at the end) > " RT
+read -p "WRITE THE URL OF YOUR SITE (WITHOUT HTTP://) > " SITEURL
+
 Magento_Installation () {
     
-    read -p "Choose the route to install Magento (skip the '/' at the end) > " RT
     echo "INSTALLING MAGENTO TAR INTO $RT"	
     cd $RT
     wget https://github.com/magento/magento2/archive/2.3.tar.gz
@@ -27,7 +29,6 @@ Composer_Installation () {
 
     cd $RT/magento2/bin
     echo "MAGENTO SETUP AND INSTALLATION"
-    read -p "WRITE THE URL OF YOUR SITE (WITHOUT HTTP://) > " SITEURL
     ./magento setup:install --base-url=http://$SITEURL --db-host=localhost --db-name=magento --db-user=magento --db-password=magento --admin-firstname=admin --admin-lastname=admin --admin-email=admin@admin.com --admin-user=admin --admin-password=admin123 --language=en_US --currency=USD --timezone=America/Chicago --use-rewrites=1
     echo "
     MAGENTO_DB_NAME=magento

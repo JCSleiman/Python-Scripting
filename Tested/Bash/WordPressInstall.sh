@@ -67,13 +67,13 @@ Download_Wordpress () {
         mv wp-cli.phar /usr/local/bin/wp
         cd ~
         wget https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash
-        cat "source /home/$USER/wp-completion.bash" >> ~/.bashrc
+        cat "source /root/wp-completion.bash" >> ~/.bashrc
         source ~/.bashrc
         mkdir /var/www/$siteurl
         cd /var/www/$siteurl
         #wp core download --allow-root
         mkdir /var/www/$siteurl/public_html
-        chown -R www-data:www-data public_html
+        chown -R $USER:www-data public_html
         cd public_html
         sudo -u www-data wp core download
         sudo -u www-data wp core config --dbname="$dbname" --dbuser="$dbuser" --dbpass="$dbpass" --dbhost="localhost" --dbprefix="wp_"
