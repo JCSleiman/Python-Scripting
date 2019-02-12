@@ -1,6 +1,6 @@
 #!bin/bash
 
-read -p "Name of your site without http:// >" siteurl
+read -p "Name of your site without http:// and with .com(or whatever)>" siteurl
 read -p "TYPE THE MYSQL ROOT PASSWORD > " MYPASS
 echo "Database Name: "
 read -e dbname
