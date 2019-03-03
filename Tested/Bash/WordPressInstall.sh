@@ -32,7 +32,7 @@ server {
 
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        fastcgi_pass unix:/run/php/php7.2-fpm.sock;
     }
 
     location ~ /\.ht {
@@ -46,7 +46,7 @@ server {
         log_not_found off;
     }
 }
-        " > /etc/nginx/sites-available/default
+        " > /etc/nginx/sites-available/$siteurl
         systemctl reload nginx
 }
 
@@ -55,7 +55,7 @@ Install_PHPextensions () {
         echo "INSTALLNG ADDITIONAL PHP EXTENSIONS"
         apt-get install -y php-curl php-gd php-mbstring php-mcrypt php-xml php-xmlrpc
         #This restart depends on what version of php-fpm you have.
-        systemctl restart php7.0-fpm
+        systemctl restart php7.2-fpm
 }
 
 Download_Wordpress () {
@@ -72,9 +72,7 @@ Download_Wordpress () {
         mkdir /var/www/$siteurl
         cd /var/www/$siteurl
         #wp core download --allow-root
-        mkdir /var/www/$siteurl/public_html
-        chown -R $USER:www-data public_html
-        cd public_html
+        chown -R $USER:www-data /var/www/$siteurl
         sudo -u www-data wp core download
         sudo -u www-data wp core config --dbname="$dbname" --dbuser="$dbuser" --dbpass="$dbpass" --dbhost="localhost" --dbprefix="wp_"
         read -p "Type the admin of the wordpress >" adminuser
